@@ -1,0 +1,209 @@
+.transactions-page {
+    animation: fadeIn var(--transition-normal);
+}
+
+/* Transaction stats */
+.transaction-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.trans-stat {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    text-align: center;
+}
+
+.trans-stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.trans-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.trans-stat-value.buy {
+    color: var(--danger);
+}
+
+.trans-stat-value.sell {
+    color: var(--secondary);
+}
+
+/* Transactions table */
+.transactions-table-wrapper {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions-table th,
+.transactions-table td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.transactions-table th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.transactions-table tbody tr {
+    transition: background var(--transition-fast);
+}
+
+.transactions-table tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+.transactions-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.type-badge {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.type-badge.buy {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+}
+
+.type-badge.sell {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--secondary);
+}
+
+.transaction-note {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.transaction-date {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.amount-cell {
+    font-weight: 600;
+}
+
+.amount-cell.buy {
+    color: var(--danger);
+}
+
+.amount-cell.sell {
+    color: var(--secondary);
+}
+
+/* Transaction form */
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.type-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+}
+
+.type-option {
+    padding: var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--transition-fast);
+    background: transparent;
+    color: var(--text-primary);
+}
+
+.type-option:hover {
+    border-color: var(--primary);
+}
+
+.type-option.active.buy {
+    border-color: var(--danger);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.type-option.active.sell {
+    border-color: var(--secondary);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.type-option-icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+    display: block;
+}
+
+.type-option-label {
+    font-weight: 500;
+}
+
+/* Empty state */
+.transactions-empty {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    background: var(--bg-card);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+}
+
+.transactions-empty-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.transactions-empty-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.transactions-empty-text {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .transactions-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .transactions-table {
+        min-width: 600px;
+    }
+}
