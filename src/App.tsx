@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { StoreProvider } from './context/StoreContext';
 import { Login, Register } from './components/Auth';
@@ -64,13 +64,13 @@ function AppRoutes() {
 
 function App() {
     return (
-        <BrowserRouter basename="/tap-hoa">
+        <HashRouter>
             <AuthProvider>
                 <StoreProvider>
                     <AppRoutes />
                 </StoreProvider>
             </AuthProvider>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
