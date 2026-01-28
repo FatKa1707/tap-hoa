@@ -64,7 +64,7 @@ function AppRoutes() {
 
 function App() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/tap-hoa">
             <AuthProvider>
                 <StoreProvider>
                     <AppRoutes />

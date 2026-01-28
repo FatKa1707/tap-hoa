@@ -1,6 +1,6 @@
 import { createContext, useContext, ReactNode } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { Product, Transaction, TransactionType } from '../types';
+import { Product, Transaction } from '../types';
 
 interface StoreContextType {
     products: Product[];
