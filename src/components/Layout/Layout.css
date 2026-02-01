@@ -133,6 +133,25 @@
     gap: var(--spacing-md);
 }
 
+.theme-toggle {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    padding: var(--spacing-sm);
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    line-height: 1;
+}
+
+.theme-toggle:hover {
+    background: var(--bg-hover);
+    transform: scale(1.1);
+}
+
 .navbar-user {
     display: flex;
     align-items: center;

@@ -1,5 +1,6 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { StoreProvider } from './context/StoreContext';
 import { Login, Register } from './components/Auth';
 import { Layout } from './components/Layout';
@@ -65,11 +66,13 @@ function AppRoutes() {
 function App() {
     return (
         <HashRouter>
-            <AuthProvider>
-                <StoreProvider>
-                    <AppRoutes />
-                </StoreProvider>
-            </AuthProvider>
+            <ThemeProvider>
+                <AuthProvider>
+                    <StoreProvider>
+                        <AppRoutes />
+                    </StoreProvider>
+                </AuthProvider>
+            </ThemeProvider>
         </HashRouter>
     );
 }

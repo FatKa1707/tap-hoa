@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { Button } from '../UI';
 import './Layout.css';
 
 export function Layout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { user, logout } = useAuth();
+    const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -71,6 +73,13 @@ export function Layout() {
                     </div>
 
                     <div className="navbar-right">
+                        <button
+                            className="theme-toggle"
+                            onClick={toggleTheme}
+                            title={theme === 'light' ? 'Chuyển sang chế độ tối' : 'Chuyển sang chế độ sáng'}
+                        >
+                            {theme === 'light' ? '🌙' : '☀️'}
+                        </button>
                         <div className="navbar-user">
                             <div className="navbar-avatar">
                                 {user ? getInitials(user.name) : '?'}

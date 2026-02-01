@@ -10,6 +10,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.classList.add(theme);
+    })();
+  </script>
 </head>
 
 <body>
@@ -21,22 +28,42 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #0f172a;
-        color: #fff;
         font-family: 'Inter', sans-serif;
         text-align: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
+
+      .dark #loading-screen {
+        background-color: #0f172a;
+        color: #fff;
+      }
+
+      .light #loading-screen {
+        background-color: #f8fafc;
+        color: #0f172a;
+      }
+
       .spinner {
         margin-top: 2rem;
         width: 40px;
         height: 40px;
-        border: 3px solid rgba(255, 255, 255, 0.1);
-        border-top-color: #fff;
+        border: 3px solid rgba(128, 128, 128, 0.1);
         border-radius: 50%;
         animation: spin 1s linear infinite;
       }
+
+      .dark .spinner {
+        border-top-color: #fff;
+      }
+
+      .light .spinner {
+        border-top-color: #6366f1;
+      }
+
       @keyframes spin {
-        to { transform: rotate(360deg); }
+        to {
+          transform: rotate(360deg);
+        }
       }
     </style>
     <div id="loading-screen">
@@ -44,8 +71,8 @@
       <div style="opacity: 0.8; font-size: 1rem;">Đang tải hệ thống...</div>
       <div class="spinner"></div>
     </div>
-  </style>
-  <script type="module" src="/src/main.tsx"></script>
+    </style>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>
