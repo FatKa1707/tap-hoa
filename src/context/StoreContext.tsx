@@ -13,7 +13,8 @@ interface StoreContextType {
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
-const API_URL = 'http://localhost:5000/api';
+// const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://192.168.1.10:5000/api';
 
 export function StoreProvider({ children }: { children: ReactNode }) {
     const [products, setProducts] = useState<Product[]>([]);
