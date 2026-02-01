@@ -15,9 +15,22 @@
 <body>
   <div id="root">
     <div
-      style="display: flex; justify-content: center; align-items: center; height: 100vh; color: #fff; font-family: sans-serif;">
-      Đang tải hệ thống...
+      style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #0f172a; color: #fff; font-family: 'Inter', sans-serif;">
+      <div style="text-align: center;">
+        <div style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">Quản Lý Tiệm Tạp Hoá</div>
+        <div style="opacity: 0.8; font-size: 1rem;">Đang tải hệ thống...</div>
+        <div
+          style="margin-top: 2rem; width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #fff; border-radius: 50%; display: inline-block; animation: spin 1s linear infinite;">
+        </div>
+      </div>
     </div>
+    <style>
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
