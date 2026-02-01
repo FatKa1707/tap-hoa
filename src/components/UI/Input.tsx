@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes, ReactNode } from 'react';
+import { useState, InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes, ReactNode } from 'react';
 import './Input.css';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -7,7 +7,11 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     required?: boolean;
 }
 
-export function Input({ label, error, required, className = '', ...props }: InputProps) {
+export function Input({ label, error, required, className = '', type, ...props }: InputProps) {
+    const [showPassword, setShowPassword] = useState(false);
+    const isPassword = type === 'password';
+    const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
+
     return (
         <div className="input-group">
             {label && (
@@ -16,10 +20,23 @@ export function Input({ label, error, required, className = '', ...props }: Inpu
                     {required && <span className="input-required">*</span>}
                 </label>
             )}
-            <input
-                className={`input ${error ? 'input-error' : ''} ${className}`}
-                {...props}
-            />
+            <div className="input-wrapper">
+                <input
+                    type={inputType}
+                    className={`input ${error ? 'input-error' : ''} ${isPassword ? 'input-with-toggle' : ''} ${className}`}
+                    {...props}
+                />
+                {isPassword && (
+                    <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                        tabIndex={-1}
+                    >
+                        {showPassword ? '👁️‍🗨️' : '👁️'}
+                    </button>
+                )}
+            </div>
             {error && <span className="input-error-message">{error}</span>}
         </div>
     );

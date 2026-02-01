@@ -61,6 +61,41 @@
     min-height: 100px;
 }
 
+/* Input wrapper for relative positioning */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-toggle {
+    padding-right: 3rem !important;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    z-index: 2;
+    user-select: none;
+}
+
+.password-toggle:hover {
+    color: var(--primary);
+    background: var(--bg-secondary);
+}
+
 /* Select */
 .select {
     appearance: none;
