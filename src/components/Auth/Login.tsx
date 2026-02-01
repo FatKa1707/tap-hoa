@@ -26,7 +26,7 @@ export function Login() {
         }
 
         // Attempt login
-        const success = login(email, password);
+        const success = await login(email, password);
 
         if (success) {
             navigate('/');

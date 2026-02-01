@@ -1,6 +1,6 @@
 // User types
 export interface User {
-    id: string;
+    id: number;
     name: string;
     email: string;
     password: string;
@@ -9,17 +9,17 @@ export interface User {
 
 export interface AuthContextType {
     user: User | null;
-    login: (email: string, password: string) => boolean;
-    register: (name: string, email: string, password: string) => boolean;
+    login: (email: string, password: string) => Promise<boolean>;
+    register: (name: string, email: string, password: string) => Promise<boolean>;
     logout: () => void;
     isAuthenticated: boolean;
 }
 
 // Product types
 export interface Product {
-    id: string;
+    id: number;
     name: string;
-    price: number;
+    sellingPrice: number;
     costPrice: number;
     quantity: number;
     category: string;
@@ -32,14 +32,14 @@ export interface Product {
 export type TransactionType = 'buy' | 'sell';
 
 export interface Transaction {
-    id: string;
-    productId: string;
+    id: number;
+    productId: number;
     productName: string;
     type: TransactionType;
     quantity: number;
     unitPrice: number;
     totalAmount: number;
-    note: string;
+    notes: string;
     createdAt: string;
 }
 

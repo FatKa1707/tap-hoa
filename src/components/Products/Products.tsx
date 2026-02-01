@@ -16,7 +16,7 @@ export function Products() {
     // Form state
     const [formData, setFormData] = useState({
         name: '',
-        price: '',
+        sellingPrice: '',
         costPrice: '',
         quantity: '',
         category: CATEGORIES[0],
@@ -33,7 +33,7 @@ export function Products() {
         setEditingProduct(null);
         setFormData({
             name: '',
-            price: '',
+            sellingPrice: '',
             costPrice: '',
             quantity: '',
             category: CATEGORIES[0],
@@ -46,7 +46,7 @@ export function Products() {
         setEditingProduct(product);
         setFormData({
             name: product.name,
-            price: product.price.toString(),
+            sellingPrice: product.sellingPrice.toString(),
             costPrice: product.costPrice.toString(),
             quantity: product.quantity.toString(),
             category: product.category,
@@ -55,12 +55,12 @@ export function Products() {
         setShowModal(true);
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         const productData = {
             name: formData.name,
-            price: parseFloat(formData.price) || 0,
+            sellingPrice: parseFloat(formData.sellingPrice) || 0,
             costPrice: parseFloat(formData.costPrice) || 0,
             quantity: parseInt(formData.quantity) || 0,
             category: formData.category,
@@ -68,17 +68,17 @@ export function Products() {
         };
 
         if (editingProduct) {
-            updateProduct(editingProduct.id, productData);
+            await updateProduct(editingProduct.id, productData);
         } else {
-            addProduct(productData);
+            await addProduct(productData);
         }
 
         setShowModal(false);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (deleteConfirm) {
-            deleteProduct(deleteConfirm.id);
+            await deleteProduct(deleteConfirm.id);
             setDeleteConfirm(null);
         }
     };
@@ -143,7 +143,7 @@ export function Products() {
                             <div className="product-prices">
                                 <div className="price-item">
                                     <span className="price-label">Giá bán</span>
-                                    <span className="price-value sell">{formatCurrency(product.price)}</span>
+                                    <span className="price-value sell">{formatCurrency(product.sellingPrice)}</span>
                                 </div>
                                 <div className="price-item">
                                     <span className="price-label">Giá nhập</span>
@@ -231,8 +231,8 @@ export function Products() {
                         <CurrencyInput
                             label="Giá bán (VNĐ)"
                             placeholder="VD: 25.000"
-                            value={formData.price}
-                            onChange={value => setFormData({ ...formData, price: value })}
+                            value={formData.sellingPrice}
+                            onChange={value => setFormData({ ...formData, sellingPrice: value })}
                             required
                         />
 

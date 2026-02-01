@@ -1,0 +1,46 @@
+CREATE DATABASE IF NOT EXISTS tap_hoa;
+USE tap_hoa;
+
+-- Drop existing tables to avoid conflict with new ID structure
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS users;
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- Bảng người dùng
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Bảng hàng hoá
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    unit VARCHAR(50) NOT NULL,
+    quantity DECIMAL(10, 2) DEFAULT 0,
+    costPrice DECIMAL(15, 2) DEFAULT 0,
+    sellingPrice DECIMAL(15, 2) DEFAULT 0,
+    minStock DECIMAL(10, 2) DEFAULT 0,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Bảng giao dịch
+CREATE TABLE IF NOT EXISTS transactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    productId INT NOT NULL,
+    productName VARCHAR(255) NOT NULL,
+    type ENUM('buy', 'sell') NOT NULL,
+    quantity DECIMAL(10, 2) NOT NULL,
+    unitPrice DECIMAL(15, 2) NOT NULL,
+    totalAmount DECIMAL(15, 2) NOT NULL,
+    notes TEXT,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (productId) REFERENCES products(id) ON DELETE CASCADE
+);

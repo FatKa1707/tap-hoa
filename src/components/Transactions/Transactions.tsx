@@ -8,7 +8,7 @@ import './Transactions.css';
 export function Transactions() {
     const { products, transactions, addTransaction, deleteTransaction } = useStore();
     const [showModal, setShowModal] = useState(false);
-    const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+    const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -16,7 +16,7 @@ export function Transactions() {
         productId: '',
         quantity: '',
         unitPrice: '',
-        note: ''
+        notes: ''
     });
 
     // Stats
@@ -31,59 +31,59 @@ export function Transactions() {
     const openAddModal = () => {
         setFormData({
             type: 'sell',
-            productId: products[0]?.id || '',
+            productId: products[0]?.id.toString() || '',
             quantity: '',
             unitPrice: '',
-            note: ''
+            notes: ''
         });
         setShowModal(true);
     };
 
     const handleProductChange = (productId: string) => {
-        const product = products.find(p => p.id === productId);
+        const product = products.find(p => p.id === parseInt(productId));
         if (product) {
             setFormData({
                 ...formData,
                 productId,
                 unitPrice: formData.type === 'sell'
-                    ? product.price.toString()
+                    ? product.sellingPrice.toString()
                     : product.costPrice.toString()
             });
         }
     };
 
     const handleTypeChange = (type: TransactionType) => {
-        const product = products.find(p => p.id === formData.productId);
+        const product = products.find(p => p.id === parseInt(formData.productId));
         setFormData({
             ...formData,
             type,
             unitPrice: product
-                ? (type === 'sell' ? product.price : product.costPrice).toString()
+                ? (type === 'sell' ? product.sellingPrice : product.costPrice).toString()
                 : ''
         });
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        const product = products.find(p => p.id === formData.productId);
+        const product = products.find(p => p.id === parseInt(formData.productId));
         if (!product) return;
 
-        addTransaction({
-            productId: formData.productId,
+        await addTransaction({
+            productId: parseInt(formData.productId),
             productName: product.name,
             type: formData.type,
             quantity: parseInt(formData.quantity) || 0,
             unitPrice: parseFloat(formData.unitPrice) || 0,
-            note: formData.note
+            notes: formData.notes
         });
 
         setShowModal(false);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (deleteConfirm) {
-            deleteTransaction(deleteConfirm);
+            await deleteTransaction(deleteConfirm);
             setDeleteConfirm(null);
         }
     };
@@ -148,7 +148,7 @@ export function Transactions() {
                                     <td className={`amount-cell ${transaction.type}`}>
                                         {formatCurrency(transaction.totalAmount)}
                                     </td>
-                                    <td className="transaction-note">{transaction.note || '-'}</td>
+                                    <td className="transaction-note">{transaction.notes || '-'}</td>
                                     <td className="transaction-date">{formatDate(transaction.createdAt)}</td>
                                     <td>
                                         <Button
@@ -257,8 +257,8 @@ export function Transactions() {
                     <Textarea
                         label="Ghi chú (tuỳ chọn)"
                         placeholder="VD: Khách quen, giảm giá..."
-                        value={formData.note}
-                        onChange={e => setFormData({ ...formData, note: e.target.value })}
+                        value={formData.notes}
+                        onChange={e => setFormData({ ...formData, notes: e.target.value })}
                     />
                 </form>
             </Modal>

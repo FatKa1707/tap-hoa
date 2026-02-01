@@ -1,47 +1,68 @@
-import { createContext, useContext, ReactNode } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { User, AuthContextType } from '../types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const API_URL = 'http://localhost:5000/api';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [users, setUsers] = useLocalStorage<User[]>('tap-hoa-users', []);
-    const [currentUser, setCurrentUser] = useLocalStorage<User | null>('tap-hoa-current-user', null);
+    const [currentUser, setCurrentUser] = useState<User | null>(() => {
+        const saved = localStorage.getItem('tap-hoa-current-user');
+        return saved ? JSON.parse(saved) : null;
+    });
 
-    const generateId = () => {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
-    };
+    useEffect(() => {
+        if (currentUser) {
+            localStorage.setItem('tap-hoa-current-user', JSON.stringify(currentUser));
+        } else {
+            localStorage.removeItem('tap-hoa-current-user');
+        }
+    }, [currentUser]);
 
-    const register = (name: string, email: string, password: string): boolean => {
-        // Check if email already exists
-        const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-        if (existingUser) {
+    const register = async (name: string, email: string, password: string): Promise<boolean> => {
+        try {
+            const response = await fetch(`${API_URL}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const newUser: User = {
+                    id: data.id,
+                    name,
+                    email,
+                    password: '', // Don't store plain text password
+                    createdAt: new Date().toISOString()
+                };
+                setCurrentUser(newUser);
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Registration error:', error);
             return false;
         }
-
-        const newUser: User = {
-            id: generateId(),
-            name,
-            email: email.toLowerCase(),
-            password,
-            createdAt: new Date().toISOString()
-        };
-
-        setUsers([...users, newUser]);
-        setCurrentUser(newUser);
-        return true;
     };
 
-    const login = (email: string, password: string): boolean => {
-        const user = users.find(
-            u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
-        );
+    const login = async (email: string, password: string): Promise<boolean> => {
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
 
-        if (user) {
-            setCurrentUser(user);
-            return true;
+            if (response.ok) {
+                const user = await response.json();
+                setCurrentUser(user);
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Login error:', error);
+            return false;
         }
-        return false;
     };
 
     const logout = () => {
