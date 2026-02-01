@@ -33,8 +33,24 @@ export function StoreProvider({ children }: { children: ReactNode }) {
                         productsRes.json(),
                         transactionsRes.json()
                     ]);
-                    setProducts(productsData);
-                    setTransactions(transactionsData);
+
+                    // Parse strings to numbers (MySQL DECIMAL types)
+                    const parsedProducts = productsData.map((p: any) => ({
+                        ...p,
+                        sellingPrice: parseFloat(p.sellingPrice) || 0,
+                        costPrice: parseFloat(p.costPrice) || 0,
+                        quantity: parseFloat(p.quantity) || 0
+                    }));
+
+                    const parsedTransactions = transactionsData.map((t: any) => ({
+                        ...t,
+                        quantity: parseFloat(t.quantity) || 0,
+                        unitPrice: parseFloat(t.unitPrice) || 0,
+                        totalAmount: parseFloat(t.totalAmount) || 0
+                    }));
+
+                    setProducts(parsedProducts);
+                    setTransactions(parsedTransactions);
                 }
             } catch (error) {
                 console.error('Lỗi khi lấy dữ liệu:', error);
